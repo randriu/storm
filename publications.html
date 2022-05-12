@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>Storm -- A Modern Probabilistic Model Checker -- Publications</title>
+    <meta name="description" content="">
+
+    <!-- CSS -->
+    <link rel="shortcut icon" type="image/png" href="/favicon.png" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" integrity="sha384-+ENW/yibaokMnme+vBLnHMphUYxHs34h9lpdbSLuAwGkOKFRl4C34WkjazBtb7eT" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/syntax.css">
+    <link rel="stylesheet" href="/fonts/font-mfizz/font-mfizz.css">
+    <link rel="stylesheet" href="/fonts/weather-icons/weather-icons.min.css">
+  </head>
+
+    <body>
+
+    <div class="navbar navbar-default navbar-static-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="/index.html" class="navbar-brand"><i class="wi wi-thunderstorm" aria-hidden="true"></i> Storm</a>
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-main">
+            <ul class="nav navbar-nav">
+                
+                
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        
+                        <li class="nav-item">
+                            <a href="/news.html" class="nav-link ">
+                            News
+                            </a>
+                        </li>
+                        
+                    
+                
+                    
+                        
+                        <li class="nav-item">
+                            <a href="/about.html" class="nav-link ">
+                            About
+                            </a>
+                        </li>
+                        
+                    
+                
+                    
+                        
+                        <li class="nav-item">
+                            <a href="/getting-started.html" class="nav-link ">
+                            Getting Started
+                            </a>
+                        </li>
+                        
+                    
+                
+                    
+                        
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Documentation<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                            
+                                <li class="container">Obtain Storm</li>
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                        <li><a href="/documentation/obtain-storm/build.html">Build from Source</a></li>
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                        <li><a href="/documentation/obtain-storm/homebrew.html">Install via Homebrew</a></li>
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                        <li><a href="/documentation/obtain-storm/docker.html">Use Docker Container</a></li>
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                        <li><a href="/documentation/obtain-storm/vm.html">Use Virtual Machine</a></li>
+                                    
+                                
+                                    
+                                
+                                    
+                                        <li><a href="/documentation/obtain-storm/troubleshooting.html">Troubleshooting</a></li>
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                
+                                <li class="divider"></li>
+                                
+                            
+                                <li class="container">Background</li>
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                        <li><a href="/documentation/background/models.html">Models</a></li>
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                        <li><a href="/documentation/background/languages.html">Languages</a></li>
+                                    
+                                
+                                    
+                                        <li><a href="/documentation/background/properties.html">Properties</a></li>
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                        <li><a href="/documentation/background/engines.html">Engines</a></li>
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                
+                                <li class="divider"></li>
+                                
+                            
+                                <li class="container">Use Storm</li>
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                        <li><a href="/documentation/usage/running-storm.html">Running Storm</a></li>
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                        <li><a href="/documentation/usage/running-storm-on-dfts.html">Running Storm on DFTs</a></li>
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                        <li><a href="/documentation/usage/running-storm-on-parametric-models.html">Running Storm on Parametric Models</a></li>
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                        <li><a href="/documentation/usage/troubleshooting.html">Troubleshooting</a></li>
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                
+                                <li class="divider"></li>
+                                
+                            
+                                <li class="container">Develop with Storm</li>
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                        <li><a href="/api/">C++ API</a></li>
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                
+                            
+                            </ul>
+                        </li>
+                        
+                    
+                
+                    
+                        
+                        <li class="nav-item">
+                            <a href="/tutorials.html" class="nav-link ">
+                            Tutorials
+                            </a>
+                        </li>
+                        
+                    
+                
+                    
+                        
+                        <li class="nav-item">
+                            <a href="/publications.html" class="nav-link active">
+                            Publications
+                            </a>
+                        </li>
+                        
+                    
+                
+                    
+                        
+                        <li class="nav-item">
+                            <a href="/benchmarks.html" class="nav-link ">
+                            Benchmarks
+                            </a>
+                        </li>
+                        
+                    
+                
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="nav-item">
+                   <a href="https://github.com/moves-rwth/storm" class="nav-link" target="_blank"><i class="fa fa-github" aria-hidden="true"></i> Source</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://moves-rwth.github.io/stormpy/" class="nav-link" target="_blank"><i class="icon-python"></i> Stormpy</a>
+                </li>
+            </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a href="/index.html">Home</a></li>
+            
+            <li class="active">Publications</li>
+        </ul>
+
+        <!--
+        <div class="page-header">
+            <h1>Publications</h1>
+            <hr />
+        </div>
+        -->
+                
+        <div class="content">
+            <h2 id="storm-tool-papers">Storm tool papers</h2>
+
+<p class="alert alert-info">If you want to cite Storm, please use the most recent paper in this category.</p>
+
+<p><b class="bibliography">2021</b></p>
+<ul class="bibliography"><li><span id="HJKQV21">Hensel, C., Junges, S., Katoen, J.-P., Quatmann, T., &amp; Volk, M. (2021). The Probabilistic Model Checker Storm. <i>STTT</i>.</span>
+
+<br />
+	
+
+<a href="http://dx.doi.org/10.1007/s10009-021-00633-z" target="_blank">
+	<img alt="DOI: 10.1007/s10009-021-00633-z" src="https://img.shields.io/static/v1?label=&amp;message=DOI&amp;color=blue" />
+</a>
+
+
+<a href="https://arxiv.org/abs/2002.07080" target="_blank">
+	<img alt="arXiv: 2002.07080" src="https://img.shields.io/static/v1?label=&amp;message=arXiv&amp;color=A42C25" />
+</a>
+
+
+<a href="https://doi.org/10.5281/zenodo.4017717" target="_blank">
+	<img alt="supplemental material" src="https://img.shields.io/static/v1?label=&amp;message=material&amp;color=889900" />
+</a>
+
+
+<a href="http://stormchecker.org/benchmarks.html" target="_blank">
+	<img alt="further information" src="https://img.shields.io/static/v1?label=&amp;message=website&amp;color=009999" />
+</a>
+</li></ul>
+<p><b class="bibliography">2017</b></p>
+<ul class="bibliography"><li><span id="DJKV17">Dehnert, C., Junges, S., Katoen, J.-P., &amp; Volk, M. (2017). A Storm is Coming: A Modern Probabilistic Model Checker. <i>CAV (2)</i>, <i>LNCS</i> <i>10427</i>, pp. 592–600, Springer.</span>
+
+<br />
+	
+
+<a href="http://dx.doi.org/10.1007/978-3-319-63390-9_31" target="_blank">
+	<img alt="DOI: 10.1007/978-3-319-63390-9_31" src="https://img.shields.io/static/v1?label=&amp;message=DOI&amp;color=blue" />
+</a>
+
+
+<a href="https://arxiv.org/abs/1702.04311" target="_blank">
+	<img alt="arXiv: 1702.04311" src="https://img.shields.io/static/v1?label=&amp;message=arXiv&amp;color=A42C25" />
+</a>
+
+
+<a href="http://stormchecker.org/documentation/obtain-storm/vm.html#storm-010-20172" target="_blank">
+	<img alt="supplemental material" src="https://img.shields.io/static/v1?label=&amp;message=material&amp;color=889900" />
+</a>
+
+
+<a href="http://stormchecker.org/benchmarks.html" target="_blank">
+	<img alt="further information" src="https://img.shields.io/static/v1?label=&amp;message=website&amp;color=009999" />
+</a>
+</li></ul>
+<p><b class="bibliography">2016</b></p>
+<ul class="bibliography"><li><span id="DJKV16">Dehnert, C., Junges, S., Katoen, J.-P., &amp; Volk, M. (2016). The Probabilistic Model Checker Storm (Extended Abstract). <i>CoRR</i>, <i>abs/1610.08713</i>.</span>
+
+<br />
+	
+
+
+<a href="https://arxiv.org/abs/1610.08713" target="_blank">
+	<img alt="arXiv: 1610.08713" src="https://img.shields.io/static/v1?label=&amp;message=arXiv&amp;color=A42C25" />
+</a>
+
+
+</li></ul>
+
+<h2 id="competition-reports">Competition reports</h2>
+
+<p><b class="bibliography">2020</b></p>
+<ul class="bibliography"><li><span id="BHKKPQTZ20">Budde, C. E., Hartmanns, A., Klauck, M., Kretı́nský Jan, Parker, D., Quatmann, T., Turrini, A., &amp; Zhang, Z. (2020). On Correctness, Precision, and Performance in Quantitative Verification
+               - QComp 2020 Competition Report. In T. Margaria &amp; B. Steffen (Eds.), <i>Leveraging Applications of Formal Methods, Verification and Validation:
+               Tools and Trends - 9th International Symposium on Leveraging Applications
+               of Formal Methods, ISoLA 2020, Rhodes, Greece, October 20-30, 2020,
+               Proceedings, Part IV</i> (Vol. 12479, pp. 216–241). Springer.</span>
+
+<br />
+	
+
+<a href="http://dx.doi.org/10.1007/978-3-030-83723-5_15" target="_blank">
+	<img alt="DOI: 10.1007/978-3-030-83723-5_15" src="https://img.shields.io/static/v1?label=&amp;message=DOI&amp;color=blue" />
+</a>
+
+
+
+
+<a href="https://qcomp.org/competition/2020/" target="_blank">
+	<img alt="further information" src="https://img.shields.io/static/v1?label=&amp;message=website&amp;color=009999" />
+</a>
+</li></ul>
+<p><b class="bibliography">2019</b></p>
+<ul class="bibliography"><li><span id="HHHKKKPQRS19">Hahn, E. M., Hartmanns, A., Hensel, C., Klauck, M., Klein, J., Kretı́nský Jan, Parker, D., Quatmann, T., Ruijters, E., &amp; Steinmetz, M. (2019). The 2019 Comparison of Tools for the Analysis of Quantitative Formal
+               Models - (QComp 2019 Competition Report). <i>TACAS (3)</i>, <i>LNCS</i> <i>11429</i>, pp. 69–92, Springer.</span>
+
+<br />
+	
+
+<a href="http://dx.doi.org/10.1007/978-3-030-17502-3_5" target="_blank">
+	<img alt="DOI: 10.1007/978-3-030-17502-3_5" src="https://img.shields.io/static/v1?label=&amp;message=DOI&amp;color=blue" />
+</a>
+
+
+
+<a href="https://doi.org/10.5281/zenodo.2628301" target="_blank">
+	<img alt="supplemental material" src="https://img.shields.io/static/v1?label=&amp;message=material&amp;color=889900" />
+</a>
+
+
+<a href="https://qcomp.org/competition/2019/" target="_blank">
+	<img alt="further information" src="https://img.shields.io/static/v1?label=&amp;message=website&amp;color=009999" />
+</a>
+</li></ul>
+
+<h2 id="papers-about-features-in-storm">Papers about features in Storm</h2>
+
+<p class="alert alert-info">The publications in this category present functionality from which a substantial part is available in Storm’s release.</p>
+
+<p><b class="bibliography">2021</b></p>
+<ul class="bibliography"><li><span id="JJS21">Junges, S., Jansen, N., &amp; A. Seshia, S. (2021). Enforcing Almost-Sure Reachability in POMDPs. <i>CAV</i>.</span>
+
+(to appear)
+
+<br />
+	
+
+
+
+</li>
+<li><span id="QJK21">Quatmann, T., Junges, S., &amp; Katoen, J.-P. (2021). Markov Automata with Multiple Objectives. <i>FMSD</i>.</span>
+
+<br />
+	
+
+<a href="http://dx.doi.org/10.1007/s10703-021-00364-6" target="_blank">
+	<img alt="DOI: 10.1007/s10703-021-00364-6" src="https://img.shields.io/static/v1?label=&amp;message=DOI&amp;color=blue" />
+</a>
+
+
+
+<a href="https://doi.org/10.5281/zenodo.4298643" target="_blank">
+	<img alt="supplemental material" src="https://img.shields.io/static/v1?label=&amp;message=material&amp;color=889900" />
+</a>
+
+</li>
+<li><span id="QK21">Quatmann, T., &amp; Katoen, J.-P. (2021). Multi-objective Optimization of Long-run Average and Total Rewards. <i>TACAS (1)</i>, <i>LNCS</i> <i>12651</i>, pp. 230–249, Springer.</span>
+
+<br />
+	
+
+<a href="http://dx.doi.org/10.1007/978-3-030-72016-2_13" target="_blank">
+	<img alt="DOI: 10.1007/978-3-030-72016-2_13" src="https://img.shields.io/static/v1?label=&amp;message=DOI&amp;color=blue" />
+</a>
+
+
+<a href="https://arxiv.org/abs/2010.13566" target="_blank">
+	<img alt="arXiv: 2010.13566" src="https://img.shields.io/static/v1?label=&amp;message=arXiv&amp;color=A42C25" />
+</a>
+
+
+<a href="https://doi.org/10.5281/zenodo.4121878" target="_blank">
+	<img alt="supplemental material" src="https://img.shields.io/static/v1?label=&amp;message=material&amp;color=889900" />
+</a>
+
+</li></ul>
+<p><b class="bibliography">2020</b></p>
+<ul class="bibliography"><li><span id="BJKQ20">Bork, A., Junges, S., Katoen, J.-P., &amp; Quatmann, T. (2020). Verification of Indefinite-Horizon POMDPs. <i>ATVA</i>, <i>LNCS</i> <i>12302</i>, pp. 288–304, Springer.</span>
+
+<br />
+	
+
+<a href="http://dx.doi.org/10.1007/978-3-030-59152-6_16" target="_blank">
+	<img alt="DOI: 10.1007/978-3-030-59152-6_16" src="https://img.shields.io/static/v1?label=&amp;message=DOI&amp;color=blue" />
+</a>
+
+
+<a href="https://arxiv.org/abs/2007.00102" target="_blank">
+	<img alt="arXiv: 2007.00102" src="https://img.shields.io/static/v1?label=&amp;message=arXiv&amp;color=A42C25" />
+</a>
+
+
+<a href="https://doi.org/10.5281/zenodo.3924577" target="_blank">
+	<img alt="supplemental material" src="https://img.shields.io/static/v1?label=&amp;message=material&amp;color=889900" />
+</a>
+
+</li>
+<li><span id="DKQR20">Delgrange, F., Katoen, J.-P., Quatmann, T., &amp; Randour, M. (2020). Simple Strategies in Multi-Objective MDPs. <i>TACAS (1)</i>, <i>LNCS</i> <i>12078</i>, pp. 346–364, Springer.</span>
+
+<br />
+	
+
+<a href="http://dx.doi.org/10.1007/978-3-030-45190-5_19" target="_blank">
+	<img alt="DOI: 10.1007/978-3-030-45190-5_19" src="https://img.shields.io/static/v1?label=&amp;message=DOI&amp;color=blue" />
+</a>
+
+
+<a href="https://arxiv.org/abs/1910.11024" target="_blank">
+	<img alt="arXiv: 1910.11024" src="https://img.shields.io/static/v1?label=&amp;message=arXiv&amp;color=A42C25" />
+</a>
+
+
+<a href="https://doi.org/10.6084/m9.figshare.11569485" target="_blank">
+	<img alt="supplemental material" src="https://img.shields.io/static/v1?label=&amp;message=material&amp;color=889900" />
+</a>
+
+</li>
+<li><span id="HJKQ20">Hartmanns, A., Junges, S., Katoen, J.-P., &amp; Quatmann, T. (2020). Multi-cost Bounded Tradeoff Analysis in MDP. <i>J. Autom. Reason.</i>, <i>64</i>(7), pp. 1483–1522.</span>
+
+<br />
+	
+
+<a href="http://dx.doi.org/10.1007/s10817-020-09574-9" target="_blank">
+	<img alt="DOI: 10.1007/s10817-020-09574-9" src="https://img.shields.io/static/v1?label=&amp;message=DOI&amp;color=blue" />
+</a>
+
+
+
+<a href="https://doi.org/10.5281/zenodo.3894716" target="_blank">
+	<img alt="supplemental material" src="https://img.shields.io/static/v1?label=&amp;message=material&amp;color=889900" />
+</a>
+
+</li></ul>
+<p><b class="bibliography">2019</b></p>
+<ul class="bibliography"><li><span id="JAHJKQV19">Junges, S., Ábrahám, E., Hensel, C., Jansen, N., Katoen, J.-P., Quatmann, T., &amp; Volk, M. (2019). Parameter Synthesis for Markov Models. <i>CoRR</i>, <i>abs/1903.07993</i>.</span>
+
+<br />
+	
+
+
+<a href="https://arxiv.org/abs/1903.07993" target="_blank">
+	<img alt="arXiv: 1903.07993" src="https://img.shields.io/static/v1?label=&amp;message=arXiv&amp;color=A42C25" />
+</a>
+
+
+
+<a href="https://moves-rwth.github.io/prophesy/" target="_blank">
+	<img alt="further information" src="https://img.shields.io/static/v1?label=&amp;message=website&amp;color=009999" />
+</a>
+</li></ul>
+<p><b class="bibliography">2018</b></p>
+<ul class="bibliography"><li><span id="HJKQ18">Hartmanns, A., Junges, S., Katoen, J.-P., &amp; Quatmann, T. (2018). Multi-cost Bounded Reachability in MDP. <i>TACAS (2)</i>, <i>LNCS</i> <i>10806</i>, pp. 320–339, Springer.</span>
+
+<br />
+	
+
+<a href="http://dx.doi.org/10.1007/978-3-319-89963-3_19" target="_blank">
+	<img alt="DOI: 10.1007/978-3-319-89963-3_19" src="https://img.shields.io/static/v1?label=&amp;message=DOI&amp;color=blue" />
+</a>
+
+
+
+<a href="https://doi.org/10.5281/zenodo.1181896" target="_blank">
+	<img alt="supplemental material" src="https://img.shields.io/static/v1?label=&amp;message=material&amp;color=889900" />
+</a>
+
+</li>
+<li><span id="JKSV18">Junges, S., Katoen, J.-P., Stoelinga, M., &amp; Volk, M. (2018). One Net Fits All - A Unifying Semantics of Dynamic Fault Trees Using
+               GSPNs. <i>Petri Nets</i>, <i>LNCS</i> <i>10877</i>, pp. 272–293, Springer.</span>
+
+<br />
+	
+
+<a href="http://dx.doi.org/10.1007/978-3-319-91268-4_14" target="_blank">
+	<img alt="DOI: 10.1007/978-3-319-91268-4_14" src="https://img.shields.io/static/v1?label=&amp;message=DOI&amp;color=blue" />
+</a>
+
+
+<a href="https://arxiv.org/abs/1803.05376" target="_blank">
+	<img alt="arXiv: 1803.05376" src="https://img.shields.io/static/v1?label=&amp;message=arXiv&amp;color=A42C25" />
+</a>
+
+
+<a href="https://github.com/moves-rwth/dft-gspn-examples" target="_blank">
+	<img alt="supplemental material" src="https://img.shields.io/static/v1?label=&amp;message=material&amp;color=889900" />
+</a>
+
+
+<a href="http://www.stormchecker.org/publications/gspn-semantics-for-dfts.html" target="_blank">
+	<img alt="further information" src="https://img.shields.io/static/v1?label=&amp;message=website&amp;color=009999" />
+</a>
+</li>
+<li><span id="QK18">Quatmann, T., &amp; Katoen, J.-P. (2018). Sound Value Iteration. <i>CAV (1)</i>, <i>LNCS</i> <i>10981</i>, pp. 643–661, Springer.</span>
+
+<br />
+	
+
+<a href="http://dx.doi.org/10.1007/978-3-319-96145-3_37" target="_blank">
+	<img alt="DOI: 10.1007/978-3-319-96145-3_37" src="https://img.shields.io/static/v1?label=&amp;message=DOI&amp;color=blue" />
+</a>
+
+
+<a href="https://arxiv.org/abs/1804.05001" target="_blank">
+	<img alt="arXiv: 1804.05001" src="https://img.shields.io/static/v1?label=&amp;message=arXiv&amp;color=A42C25" />
+</a>
+
+
+<a href="https://doi.org/10.6084/m9.figshare.6139052" target="_blank">
+	<img alt="supplemental material" src="https://img.shields.io/static/v1?label=&amp;message=material&amp;color=889900" />
+</a>
+
+</li>
+<li><span id="VJK18">Volk, M., Junges, S., &amp; Katoen, J.-P. (2018). Fast Dynamic Fault Tree Analysis by Model Checking Techniques. <i>IEEE Trans. Ind. Informatics</i>, <i>14</i>(1), pp. 370–379.</span>
+
+<br />
+	
+
+<a href="http://dx.doi.org/10.1109/TII.2017.2710316" target="_blank">
+	<img alt="DOI: 10.1109/TII.2017.2710316" src="https://img.shields.io/static/v1?label=&amp;message=DOI&amp;color=blue" />
+</a>
+
+
+
+</li></ul>
+<p><b class="bibliography">2017</b></p>
+<ul class="bibliography"><li><span id="BDHHJT17">Budde, C. E., Dehnert, C., Hahn, E. M., Hartmanns, A., Junges, S., &amp; Turrini, A. (2017). JANI: Quantitative Model and Tool Interaction. <i>TACAS (2)</i>, <i>LNCS</i> <i>10206</i>, pp. 151–168.</span>
+
+<br />
+
+<a href="/files/BDHHJT17.pdf" target="_blank">
+	<img alt="BDHHJT17.pdf" src="https://img.shields.io/static/v1?label=&amp;message=PDF&amp;color=orange" />
+</a>
+	
+
+<a href="http://dx.doi.org/10.1007/978-3-662-54580-5_9" target="_blank">
+	<img alt="DOI: 10.1007/978-3-662-54580-5_9" src="https://img.shields.io/static/v1?label=&amp;message=DOI&amp;color=blue" />
+</a>
+
+
+
+
+<a href="https://jani-spec.org" target="_blank">
+	<img alt="further information" src="https://img.shields.io/static/v1?label=&amp;message=website&amp;color=009999" />
+</a>
+</li>
+<li><span id="QJK17">Quatmann, T., Junges, S., &amp; Katoen, J.-P. (2017). Markov Automata with Multiple Objectives. <i>CAV (1)</i>, <i>LNCS</i> <i>10426</i>, pp. 140–159, Springer.</span>
+
+<br />
+	
+
+<a href="http://dx.doi.org/10.1007/978-3-319-63387-9_7" target="_blank">
+	<img alt="DOI: 10.1007/978-3-319-63387-9_7" src="https://img.shields.io/static/v1?label=&amp;message=DOI&amp;color=blue" />
+</a>
+
+
+<a href="https://arxiv.org/abs/1704.06648" target="_blank">
+	<img alt="arXiv: 1704.06648" src="https://img.shields.io/static/v1?label=&amp;message=arXiv&amp;color=A42C25" />
+</a>
+
+
+<a href="https://doi.org/10.5281/zenodo.4298643" target="_blank">
+	<img alt="supplemental material" src="https://img.shields.io/static/v1?label=&amp;message=material&amp;color=889900" />
+</a>
+
+</li></ul>
+<p><b class="bibliography">2016</b></p>
+<ul class="bibliography"><li><span id="JJDTK16">Junges, S., Jansen, N., Dehnert, C., Topcu, U., &amp; Katoen, J.-P. (2016). Safety-Constrained Reinforcement Learning for MDPs. <i>TACAS</i>, <i>LNCS</i> <i>9636</i>, pp. 130–146, Springer.</span>
+
+<br />
+	
+
+<a href="http://dx.doi.org/10.1007/978-3-662-49674-9_8" target="_blank">
+	<img alt="DOI: 10.1007/978-3-662-49674-9_8" src="https://img.shields.io/static/v1?label=&amp;message=DOI&amp;color=blue" />
+</a>
+
+
+<a href="https://arxiv.org/abs/1510.05880" target="_blank">
+	<img alt="arXiv: 1510.05880" src="https://img.shields.io/static/v1?label=&amp;message=arXiv&amp;color=A42C25" />
+</a>
+
+
+</li>
+<li><span id="QDJJK16">Quatmann, T., Dehnert, C., Jansen, N., Junges, S., &amp; Katoen, J.-P. (2016). Parameter Synthesis for Markov Models: Faster Than Ever. <i>ATVA</i>, <i>LNCS</i> <i>9938</i>, pp. 50–67.</span>
+
+<br />
+	
+
+<a href="http://dx.doi.org/10.1007/978-3-319-46520-3_4" target="_blank">
+	<img alt="DOI: 10.1007/978-3-319-46520-3_4" src="https://img.shields.io/static/v1?label=&amp;message=DOI&amp;color=blue" />
+</a>
+
+
+<a href="https://arxiv.org/abs/1602.05113" target="_blank">
+	<img alt="arXiv: 1602.05113" src="https://img.shields.io/static/v1?label=&amp;message=arXiv&amp;color=A42C25" />
+</a>
+
+
+</li>
+<li><span id="VJK16">Volk, M., Junges, S., &amp; Katoen, J.-P. (2016). Advancing Dynamic Fault Tree Analysis - Get Succinct State Spaces
+               Fast and Synthesise Failure Rates. <i>SAFECOMP</i>, <i>LNCS</i> <i>9922</i>, pp. 253–265, Springer.</span>
+
+<br />
+	
+
+<a href="http://dx.doi.org/10.1007/978-3-319-45477-1_20" target="_blank">
+	<img alt="DOI: 10.1007/978-3-319-45477-1_20" src="https://img.shields.io/static/v1?label=&amp;message=DOI&amp;color=blue" />
+</a>
+
+
+<a href="https://arxiv.org/abs/abs/1604.07474" target="_blank">
+	<img alt="arXiv: abs/1604.07474" src="https://img.shields.io/static/v1?label=&amp;message=arXiv&amp;color=A42C25" />
+</a>
+
+
+</li></ul>
+<p><b class="bibliography">2015</b></p>
+<ul class="bibliography"><li><span id="DJJCVBA15">Dehnert, C., Junges, S., Jansen, N., Corzilius, F., Volk, M., Bruintjes, H., Katoen, J.-P., &amp; Ábrahám, E. (2015). PROPhESY: A PRObabilistic ParamEter SYnthesis Tool. <i>CAV (1)</i>, <i>LNCS</i> <i>9206</i>, pp. 214–231, Springer.</span>
+
+<br />
+	
+
+<a href="http://dx.doi.org/10.1007/978-3-319-21690-4_13" target="_blank">
+	<img alt="DOI: 10.1007/978-3-319-21690-4_13" src="https://img.shields.io/static/v1?label=&amp;message=DOI&amp;color=blue" />
+</a>
+
+
+
+
+<a href="https://moves-rwth.github.io/prophesy/" target="_blank">
+	<img alt="further information" src="https://img.shields.io/static/v1?label=&amp;message=website&amp;color=009999" />
+</a>
+</li></ul>
+<p><b class="bibliography">2014</b></p>
+<ul class="bibliography"><li><span id="DJWAK14">Dehnert, C., Jansen, N., Wimmer, R., Ábrahám, E., &amp; Katoen, J.-P. (2014). Fast Debugging of PRISM Models. <i>ATVA</i>, <i>LNCS</i> <i>8837</i>, pp. 146–162, Springer.</span>
+
+<br />
+	
+
+<a href="http://dx.doi.org/10.1007/978-3-319-11936-6_11" target="_blank">
+	<img alt="DOI: 10.1007/978-3-319-11936-6_11" src="https://img.shields.io/static/v1?label=&amp;message=DOI&amp;color=blue" />
+</a>
+
+
+
+</li></ul>
+
+<h2 id="papers-using-storm-as-a-backend">Papers using Storm as a backend</h2>
+
+<p class="alert alert-info">The publications in this category present tools, algorithms and case studies that use Storm as a backend.</p>
+
+<p><b class="bibliography">2021</b></p>
+<ul class="bibliography"><li><span id="CJJMST21">Cubuktepe, M., Jansen, N., Junges, S., Marandi, A., Suilen, M., &amp; Topcu, U. (2021). Robust Finite-State Controllers for Uncertain POMDPs. <i>AAAI</i>, pp. 11792–11800, AAAI Press.</span>
+
+<br />
+	
+
+
+
+</li>
+<li><span id="HJVMSV21">Holtzen, S., Junges, S., Vazquez-Chanlatte, M., Millstein, T., A. Seshia, S., &amp; Van den Broeck, G. (2021). Model Checking Finite-Horizon Markov Chains with Probabilistic Inference. <i>CAV</i>.</span>
+
+(to appear)
+
+<br />
+	
+
+
+
+</li>
+<li><span id="JTS21">Junges, S., Torfah, H., &amp; A. Seshia, S. (2021). Runtime Monitors for Markov Decision Processes. <i>CAV</i>.</span>
+
+<br />
+	
+
+
+
+</li>
+<li><span id="PKPB21">Pranger, S., Könighofer, B., Posch, L., &amp; Bloem, R. (2021). TEMPEST - Synthesis Tool for Reactive Systems and Shields in Probabilistic
+               Environments. <i>ATVA</i>.</span>
+
+(to appear)
+
+<br />
+	
+
+
+<a href="https://arxiv.org/abs/2105.12588" target="_blank">
+	<img alt="arXiv: 2105.12588" src="https://img.shields.io/static/v1?label=&amp;message=arXiv&amp;color=A42C25" />
+</a>
+
+
+</li>
+<li><span id="SK21">Salmani, B., &amp; Katoen, J.-P. (2021). Fine-Tuning the Odds in Bayesian Networks. <i>CoRR</i>, <i>abs/2105.14371</i>.</span>
+
+<br />
+	
+
+
+<a href="https://arxiv.org/abs/2105.14371" target="_blank">
+	<img alt="arXiv: 2105.14371" src="https://img.shields.io/static/v1?label=&amp;message=arXiv&amp;color=A42C25" />
+</a>
+
+
+</li>
+<li><span id="ZZAAFJ21">Zhang, H., Zhang, C., de Amorim, A. A., Agarwal, Y., Fredrikson, M., &amp; Jia, L. (2021). Netter: Probabilistic, Stateful Network Models. <i>VMCAI</i>, <i>LNCS</i> <i>12597</i>, pp. 486–508, Springer.</span>
+
+<br />
+
+<a href="http://arthuraa.net/docs/netter.pdf" target="_blank">
+	<img alt="ZZAAFJ21.pdf" src="https://img.shields.io/static/v1?label=&amp;message=PDF&amp;color=orange" />
+</a>
+	
+
+<a href="http://dx.doi.org/10.1007/978-3-030-67067-2_22" target="_blank">
+	<img alt="DOI: 10.1007/978-3-030-67067-2_22" src="https://img.shields.io/static/v1?label=&amp;message=DOI&amp;color=blue" />
+</a>
+
+
+
+<a href="https://github.com/arthuraa/netter" target="_blank">
+	<img alt="supplemental material" src="https://img.shields.io/static/v1?label=&amp;message=material&amp;color=889900" />
+</a>
+
+</li></ul>
+<p><b class="bibliography">2020</b></p>
+<ul class="bibliography"><li><span id="JKJSB20">Jansen, N., Könighofer, B., Junges, S., Serban, A., &amp; Bloem, R. (2020). Safe Reinforcement Learning Using Probabilistic Shields (Invited Paper). <i>CONCUR</i>, <i>LIPIcs</i> <i>171</i>, pp. 3:1–3:16, Schloss Dagstuhl - Leibniz-Zentrum für Informatik.</span>
+
+<br />
+	
+
+
+
+</li>
+<li><span id="SK20">Salmani, B., &amp; Katoen, J.-P. (2020). Bayesian Inference by Symbolic Model Checking. <i>QEST</i>, <i>LNCS</i> <i>12289</i>, pp. 115–133, Springer.</span>
+
+<br />
+	
+
+<a href="http://dx.doi.org/10.1007/978-3-030-59854-9_9" target="_blank">
+	<img alt="DOI: 10.1007/978-3-030-59854-9_9" src="https://img.shields.io/static/v1?label=&amp;message=DOI&amp;color=blue" />
+</a>
+
+
+<a href="https://arxiv.org/abs/2007.15071" target="_blank">
+	<img alt="arXiv: 2007.15071" src="https://img.shields.io/static/v1?label=&amp;message=arXiv&amp;color=A42C25" />
+</a>
+
+
+</li></ul>
+<p><b class="bibliography">2019</b></p>
+<ul class="bibliography"><li><span id="CHJK19">Ceska, M., Hensel, C., Junges, S., &amp; Katoen, J.-P. (2019). Counterexample-Driven Synthesis for Probabilistic Program Sketches. <i>FM</i>, <i>LNCS</i> <i>11800</i>, pp. 101–120, Springer.</span>
+
+<br />
+	
+
+<a href="http://dx.doi.org/10.1007/978-3-030-30942-8_8" target="_blank">
+	<img alt="DOI: 10.1007/978-3-030-30942-8_8" src="https://img.shields.io/static/v1?label=&amp;message=DOI&amp;color=blue" />
+</a>
+
+
+<a href="https://arxiv.org/abs/1904.12371" target="_blank">
+	<img alt="arXiv: 1904.12371" src="https://img.shields.io/static/v1?label=&amp;message=arXiv&amp;color=A42C25" />
+</a>
+
+
+</li>
+<li><span id="CJJK19">Ceska, M., Jansen, N., Junges, S., &amp; Katoen, J.-P. (2019). Shepherding Hordes of Markov Chains. <i>TACAS (2)</i>, <i>LNCS</i> <i>11428</i>, pp. 172–190, Springer.</span>
+
+<br />
+	
+
+<a href="http://dx.doi.org/10.1007/978-3-030-17465-1_10" target="_blank">
+	<img alt="DOI: 10.1007/978-3-030-17465-1_10" src="https://img.shields.io/static/v1?label=&amp;message=DOI&amp;color=blue" />
+</a>
+
+
+<a href="https://arxiv.org/abs/1902.05727" target="_blank">
+	<img alt="arXiv: 1902.05727" src="https://img.shields.io/static/v1?label=&amp;message=arXiv&amp;color=A42C25" />
+</a>
+
+
+</li>
+<li><span id="GJKKV19">Ghadhab, M., Junges, S., Katoen, J.-P., Kuntz, M., &amp; Volk, M. (2019). Safety analysis for vehicle guidance systems with dynamic fault trees. <i>Reliab. Eng. Syst. Saf.</i>, <i>186</i>, pp. 37–50.</span>
+
+<br />
+	
+
+<a href="http://dx.doi.org/10.1016/j.ress.2019.02.005" target="_blank">
+	<img alt="DOI: 10.1016/j.ress.2019.02.005" src="https://img.shields.io/static/v1?label=&amp;message=DOI&amp;color=blue" />
+</a>
+
+
+<a href="https://arxiv.org/abs/1903.05361" target="_blank">
+	<img alt="arXiv: 1903.05361" src="https://img.shields.io/static/v1?label=&amp;message=arXiv&amp;color=A42C25" />
+</a>
+
+
+
+<a href="http://www.stormchecker.org/publications/dfts-for-vehicle-guidance-systems.html" target="_blank">
+	<img alt="further information" src="https://img.shields.io/static/v1?label=&amp;message=website&amp;color=009999" />
+</a>
+</li>
+<li><span id="HKPQR19">Hartmanns, A., Klauck, M., Parker, D., Quatmann, T., &amp; Ruijters, E. (2019). The Quantitative Verification Benchmark Set. <i>TACAS (1)</i>, <i>LNCS</i> <i>11427</i>, pp. 344–350, Springer.</span>
+
+<br />
+	
+
+<a href="http://dx.doi.org/10.1007/978-3-030-17462-0_20" target="_blank">
+	<img alt="DOI: 10.1007/978-3-030-17462-0_20" src="https://img.shields.io/static/v1?label=&amp;message=DOI&amp;color=blue" />
+</a>
+
+
+
+
+<a href="https://qcomp.org/benchmarks/" target="_blank">
+	<img alt="further information" src="https://img.shields.io/static/v1?label=&amp;message=website&amp;color=009999" />
+</a>
+</li>
+<li><span id="VWKN19">Volk, M., Weik, N., Katoen, J.-P., &amp; Nießen, N. (2019). A DFT Modeling Approach for Infrastructure Reliability Analysis
+               of Railway Station Areas. <i>FMICS</i>, <i>LNCS</i> <i>11687</i>, pp. 40–58, Springer.</span>
+
+<br />
+	
+
+<a href="http://dx.doi.org/10.1007/978-3-030-27008-7_3" target="_blank">
+	<img alt="DOI: 10.1007/978-3-030-27008-7_3" src="https://img.shields.io/static/v1?label=&amp;message=DOI&amp;color=blue" />
+</a>
+
+
+
+</li></ul>
+<p><b class="bibliography">2018</b></p>
+<ul class="bibliography"><li><span id="CJJKT18">Cubuktepe, M., Jansen, N., Junges, S., Katoen, J.-P., &amp; Topcu, U. (2018). Synthesis in pMDPs: A Tale of 1001 Parameters. <i>ATVA</i>, <i>LNCS</i> <i>11138</i>, pp. 160–176, Springer.</span>
+
+<br />
+	
+
+<a href="http://dx.doi.org/10.1007/978-3-030-01090-4_10" target="_blank">
+	<img alt="DOI: 10.1007/978-3-030-01090-4_10" src="https://img.shields.io/static/v1?label=&amp;message=DOI&amp;color=blue" />
+</a>
+
+
+
+</li>
+<li><span id="JJKTZH18">Junges, S., Jansen, N., Katoen, J.-P., Topcu, U., Zhang, R., &amp; Hayhoe, M. M. (2018). Model Checking for Safe Navigation Among Humans. <i>QEST</i>, <i>LNCS</i> <i>11024</i>, pp. 207–222, Springer.</span>
+
+<br />
+	
+
+<a href="http://dx.doi.org/10.1007/978-3-319-99154-2_13" target="_blank">
+	<img alt="DOI: 10.1007/978-3-319-99154-2_13" src="https://img.shields.io/static/v1?label=&amp;message=DOI&amp;color=blue" />
+</a>
+
+
+
+</li>
+<li><span id="JJWQWKB18">Junges, S., Jansen, N., Wimmer, R., Quatmann, T., Winterer, L., Katoen, J.-P., &amp; Becker, B. (2018). Finite-State Controllers of POMDPs using Parameter Synthesis. <i>UAI</i>, pp. 519–529, AUAI Press.</span>
+
+<br />
+
+<a href="http://auai.org/uai2018/proceedings/papers/195.pdf" target="_blank">
+	<img alt="JJWQWKB18.pdf" src="https://img.shields.io/static/v1?label=&amp;message=PDF&amp;color=orange" />
+</a>
+	
+
+
+<a href="https://arxiv.org/abs/1710.10294" target="_blank">
+	<img alt="arXiv: 1710.10294" src="https://img.shields.io/static/v1?label=&amp;message=arXiv&amp;color=A42C25" />
+</a>
+
+
+</li></ul>
+<p><b class="bibliography">2017</b></p>
+<ul class="bibliography"><li><span id="AVBKS17">Aflaki, S., Volk, M., Bonakdarpour, B., Katoen, J.-P., &amp; Storjohann, A. (2017). Automated Fine Tuning of Probabilistic Self-Stabilizing Algorithms. <i>SRDS</i>, pp. 94–103, IEEE Computer Society.</span>
+
+<br />
+	
+
+<a href="http://dx.doi.org/10.1109/SRDS.2017.22" target="_blank">
+	<img alt="DOI: 10.1109/SRDS.2017.22" src="https://img.shields.io/static/v1?label=&amp;message=DOI&amp;color=blue" />
+</a>
+
+
+
+</li>
+<li><span id="CJJKPPT17">Cubuktepe, M., Jansen, N., Junges, S., Katoen, J.-P., Papusha, I., Poonawala, H. A., &amp; Topcu, U. (2017). Sequential Convex Programming for the Efficient Verification of Parametric
+               MDPs. <i>TACAS (2)</i>, <i>LNCS</i> <i>10206</i>, pp. 133–150.</span>
+
+<br />
+	
+
+<a href="http://dx.doi.org/10.1007/978-3-662-54580-5_8" target="_blank">
+	<img alt="DOI: 10.1007/978-3-662-54580-5_8" src="https://img.shields.io/static/v1?label=&amp;message=DOI&amp;color=blue" />
+</a>
+
+
+<a href="https://arxiv.org/abs/1702.00063s" target="_blank">
+	<img alt="arXiv: 1702.00063s" src="https://img.shields.io/static/v1?label=&amp;message=arXiv&amp;color=A42C25" />
+</a>
+
+
+</li>
+<li><span id="GJKKV17">Ghadhab, M., Junges, S., Katoen, J.-P., Kuntz, M., &amp; Volk, M. (2017). Model-Based Safety Analysis for Vehicle Guidance Systems. <i>SAFECOMP</i>, <i>LNCS</i> <i>10488</i>, pp. 3–19, Springer.</span>
+
+<br />
+	
+
+<a href="http://dx.doi.org/10.1007/978-3-319-66266-4_1" target="_blank">
+	<img alt="DOI: 10.1007/978-3-319-66266-4_1" src="https://img.shields.io/static/v1?label=&amp;message=DOI&amp;color=blue" />
+</a>
+
+
+
+</li></ul>
+<p><b class="bibliography">2016</b></p>
+<ul class="bibliography"><li><span id="DJKG16">Dombrowski, C., Junges, S., Katoen, J.-P., &amp; Gross, J. (2016). Model-Checking Assisted Protocol Design for Ultra-reliable Low-Latency
+               Wireless Networks. <i>SRDS</i>, pp. 307–316, IEEE Computer Society.</span>
+
+<br />
+	
+
+<a href="http://dx.doi.org/10.1109/SRDS.2016.048" target="_blank">
+	<img alt="DOI: 10.1109/SRDS.2016.048" src="https://img.shields.io/static/v1?label=&amp;message=DOI&amp;color=blue" />
+</a>
+
+
+
+</li>
+<li><span id="JDKKW16">Jansen, N., Dehnert, C., Kaminski, B. L., Katoen, J.-P., &amp; Westhofen, L. (2016). Bounded Model Checking for Probabilistic Programs. <i>ATVA</i>, <i>LNCS</i> <i>9938</i>, pp. 68–85.</span>
+
+<br />
+	
+
+<a href="http://dx.doi.org/10.1007/978-3-319-46520-3_5" target="_blank">
+	<img alt="DOI: 10.1007/978-3-319-46520-3_5" src="https://img.shields.io/static/v1?label=&amp;message=DOI&amp;color=blue" />
+</a>
+
+
+<a href="https://arxiv.org/abs/1605.04477" target="_blank">
+	<img alt="arXiv: 1605.04477" src="https://img.shields.io/static/v1?label=&amp;message=arXiv&amp;color=A42C25" />
+</a>
+
+
+</li>
+<li><span id="LVATJ16">Leofante, F., Vuotto, S., Ábrahám, E., Tacchella, A., &amp; Jansen, N. (2016). Combining Static and Runtime Methods to Achieve Safe Standing-Up for
+               Humanoid Robots. <i>ISoLA (1)</i>, <i>LNCS</i> <i>9952</i>, pp. 496–514.</span>
+
+<br />
+	
+
+<a href="http://dx.doi.org/10.1007/978-3-319-47166-2_34" target="_blank">
+	<img alt="DOI: 10.1007/978-3-319-47166-2_34" src="https://img.shields.io/static/v1?label=&amp;message=DOI&amp;color=blue" />
+</a>
+
+
+
+</li></ul>
+<p><b class="bibliography">2015</b></p>
+<ul class="bibliography"><li><span id="QJDWAKB15">Quatmann, T., Jansen, N., Dehnert, C., Wimmer, R., Ábrahám, E., Katoen, J.-P., &amp; Becker, B. (2015). Counterexamples for Expected Rewards. <i>FM</i>, <i>LNCS</i> <i>9109</i>, pp. 435–452, Springer.</span>
+
+<br />
+	
+
+<a href="http://dx.doi.org/10.1007/978-3-319-19249-9_27" target="_blank">
+	<img alt="DOI: 10.1007/978-3-319-19249-9_27" src="https://img.shields.io/static/v1?label=&amp;message=DOI&amp;color=blue" />
+</a>
+
+
+
+</li></ul>
+
+<p class="alert alert-danger">If there is a publication missing in some of the lists above, feel free to <a href="/about.html#people">contact us</a>.</p>
+
+			
+
+        </div>
+    </div>
+
+    <footer class="footer bg-primary">
+    <div class="container">
+        <p class="navbar-text">Storm is a probabilistic model checker with <a href="/related-tools.html#dependencies">several dependencies</a> developed by <a href="/about.html#people">several authors</a>. This website uses several <a href="/related-tools.html#website">cool libraries</a>.
+        </p>
+    </div>
+</footer>
+
+    <!-- JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+
+  </body>
+</html>
