@@ -98,9 +98,12 @@ namespace storm {
             for(auto state: this->relevant_states) {
                 builder.newRowGroup(current_row);
                 for(uint64_t row = row_groups[state]; row < row_groups[state+1]; row++) {
+                    if(this->discount_factor < 1) {
+                        builder.addNextValue(current_row, sink_state, 1-this->discount_factor);
+                    }
                     for(auto const& entry: tm.getRow(row)) {
                         auto dst = this->state_full_to_sub[entry.getColumn()];
-                        builder.addNextValue(current_row, dst, entry.getValue());
+                        builder.addNextValue(current_row, dst, entry.getValue() * this->discount_factor);
                     }
                     current_row++;
                 }
@@ -130,7 +133,9 @@ namespace storm {
             auto const& pomdp_labeling = this->pomdp.getStateLabeling();
             auto const& pomdp_target_states = pomdp_labeling.getStates(this->target_label);
             for(auto state: pomdp_target_states) {
-                label_target.set(this->state_full_to_sub[state]);
+                if(this->relevant_states[state]) {
+                    label_target.set(this->state_full_to_sub[state]);
+                }
             }
             label_target.set(this->sink_state);
             labeling.addLabel(this->target_label, std::move(label_target));

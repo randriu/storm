@@ -21,6 +21,13 @@ namespace storm {
                 std::string const& target_label
             );
 
+            /**
+             * If <1 discount factor is set, each action will redirect 1-df probability to the (target) sink state.
+             */
+            void setDiscountFactor(double discount_factor) {
+                this->discount_factor = discount_factor;
+            }
+
             /** Set which states to keep in the restricted sub-POMDP. */
             void setRelevantStates(storm::storage::BitVector const& relevant_states);
 
@@ -50,6 +57,8 @@ namespace storm {
             std::string const target_label;
             // for each state, a list of immediate successors (excluding state itself)
             std::vector<std::set<uint64_t>> reachable_successors;
+            // discount factor to be applied to the transformed POMDP
+            double discount_factor = 1;
             
 
             // index of the new initial state
