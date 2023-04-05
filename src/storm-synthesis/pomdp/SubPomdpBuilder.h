@@ -37,15 +37,20 @@ namespace storm {
             /**
              * Construct a POMDP restriction containing relevant states, frontier states, a new initial state to
              * simulate initial distribution and a new sink state (labeled as a target one) to which frontier states
-             * are redirected.
+             * are redirected. Frontier state actions will have reward 0.
              * @param initial_belief initial probability distribution
-             * @param frontier_values reward obtained upon redirection of the frontier state to the sink state
              * @return a POMDP
              */
             std::shared_ptr<storm::models::sparse::Pomdp<double>> restrictPomdp(
-                std::map<uint64_t,double> const& initial_belief,
-                std::map<uint64_t,double> const& frontier_values
+                std::map<uint64_t,double> const& initial_belief
             );
+
+            // for each state of a sub-POMDP its index in full POMDP; first two entries corresponding to two fresh
+            // states contain 0
+            std::vector<uint64_t> state_sub_to_full;
+            // for each state of a full POMDP its index in the sub-POMDP, 0 for unreachable states
+            // no ambiguity since 0th state in the sub-POMDP is a special state that simulates initial beluef
+            std::vector<uint64_t> state_full_to_sub;
 
         private:
 
@@ -72,9 +77,6 @@ namespace storm {
             storm::storage::BitVector relevant_states;
             // irrelevant states reachable from the relevant ones in one step
             storm::storage::BitVector frontier_states;
-            // for each state of a full POMDP its index in the sub-POMDP, 0 for unreachable states
-            // no ambiguity since 0th state in the sub-POMDP is a special states that  simulates initial beluef
-            std::vector<uint64_t> state_full_to_sub;
 
             
             // total number of states in the sub-POMDP
@@ -89,10 +91,7 @@ namespace storm {
             storm::models::sparse::StateLabeling constructStateLabeling();
             storm::models::sparse::ChoiceLabeling constructChoiceLabeling(uint64_t num_rows);
             std::vector<uint32_t> constructObservabilityClasses();
-            storm::models::sparse::StandardRewardModel<double> constructRewardModel(
-                uint64_t num_rows,
-                std::map<uint64_t,double> const& frontier_values
-            );
+            storm::models::sparse::StandardRewardModel<double> constructRewardModel(uint64_t num_rows);
         
 
         };

@@ -45,15 +45,20 @@ namespace storm {
                 }
             }
 
-            // create state map
+            // create both state maps
+            this->state_sub_to_full = std::vector<uint64_t>(this->num_states(),0);
             this->state_full_to_sub = std::vector<uint64_t>(this->pomdp.getNumberOfStates(),0);
             // indices 0 and 1 are reserved for the initial and the sink state respectively
             uint64_t state_index = 2;
             for(auto state: relevant_states) {
-                this->state_full_to_sub[state] = state_index++;
+                this->state_full_to_sub[state] = state_index;
+                this->state_sub_to_full[state_index] = state;
+                state_index++;
             }
             for(auto state: frontier_states) {
-                this->state_full_to_sub[state] = state_index++;
+                this->state_full_to_sub[state] = state_index;
+                this->state_sub_to_full[state_index] = state;
+                state_index++;
             }
         }
 
@@ -191,10 +196,7 @@ namespace storm {
             return observation_classes;
         }
 
-        storm::models::sparse::StandardRewardModel<double> SubPomdpBuilder::constructRewardModel(
-            uint64_t num_rows,
-            std::map<uint64_t,double> const& frontier_values
-        ) {
+        storm::models::sparse::StandardRewardModel<double> SubPomdpBuilder::constructRewardModel(uint64_t num_rows) {
             auto const& reward_model = this->pomdp.getRewardModel(this->reward_name);
             boost::optional<std::vector<double>> state_rewards;
             std::vector<double> action_rewards(num_rows,0);
@@ -213,18 +215,11 @@ namespace storm {
                 }
             }
 
-            // frontier states
-            for(const auto state: this->frontier_states) {
-                action_rewards[current_row] = frontier_values.find(state)->second;
-                current_row++;
-            }
-
             return storm::models::sparse::StandardRewardModel<double>(std::move(state_rewards), std::move(action_rewards));
         }
 
         std::shared_ptr<storm::models::sparse::Pomdp<double>> SubPomdpBuilder::restrictPomdp(
-            std::map<uint64_t,double> const& initial_belief,
-            std::map<uint64_t,double> const& frontier_values
+            std::map<uint64_t,double> const& initial_belief
         ) {
             storm::storage::sparse::ModelComponents<double> components;
             components.transitionMatrix = this->constructTransitionMatrix(initial_belief);
@@ -232,7 +227,7 @@ namespace storm {
             components.stateLabeling = this->constructStateLabeling();
             components.choiceLabeling = this->constructChoiceLabeling(num_rows);
             components.observabilityClasses = this->constructObservabilityClasses();
-            components.rewardModels.emplace(this->reward_name, this->constructRewardModel(num_rows,frontier_values));
+            components.rewardModels.emplace(this->reward_name, this->constructRewardModel(num_rows));
             return std::make_shared<storm::models::sparse::Pomdp<double>>(std::move(components));
         }
 
