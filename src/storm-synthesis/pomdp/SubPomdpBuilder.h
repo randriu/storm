@@ -28,11 +28,14 @@ namespace storm {
                 this->discount_factor = discount_factor;
             }
 
+            /** Set which observations to keep in the restricted sub-POMDP. */
+            void setRelevantObservations(
+                storm::storage::BitVector const& relevant_observations,
+                std::map<uint64_t,double> const& initial_belief
+            );
+
             /** Set which states to keep in the restricted sub-POMDP. */
             void setRelevantStates(storm::storage::BitVector const& relevant_states);
-
-            /** Get irrelevant states reachable from relevant ones in 1 step. */
-            storm::storage::BitVector const& getFrontierStates();
 
             /**
              * Construct a POMDP restriction containing relevant states, frontier states, a new initial state to
@@ -44,6 +47,13 @@ namespace storm {
             std::shared_ptr<storm::models::sparse::Pomdp<double>> restrictPomdp(
                 std::map<uint64_t,double> const& initial_belief
             );
+
+            // observations relevant for the current restriction
+            storm::storage::BitVector relevant_observations;
+            // states relevant for the current restriction
+            storm::storage::BitVector relevant_states;
+            // irrelevant states reachable from the relevant ones in one step
+            storm::storage::BitVector frontier_states;
 
             // for each state of a sub-POMDP its index in full POMDP; first two entries corresponding to two fresh
             // states contain 0
@@ -72,12 +82,6 @@ namespace storm {
             const uint64_t sink_state = 1;
             // label associated with initial distribution as well as shortcut actions
             const std::string empty_label = "";
-
-            // states relevant for the current restriction
-            storm::storage::BitVector relevant_states;
-            // irrelevant states reachable from the relevant ones in one step
-            storm::storage::BitVector frontier_states;
-
             
             // total number of states in the sub-POMDP
             uint64_t num_states() {
@@ -85,6 +89,7 @@ namespace storm {
             }
             
             
+            void constructStateMaps();
             storm::storage::SparseMatrix<double> constructTransitionMatrix(
                 std::map<uint64_t,double> const& initial_belief
             );

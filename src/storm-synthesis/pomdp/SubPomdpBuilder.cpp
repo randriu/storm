@@ -6,6 +6,8 @@
 #include "storm/storage/SparseMatrix.h"
 #include "storm/models/sparse/StandardRewardModel.h"
 
+#include <stack>
+
 namespace storm {
     namespace synthesis {
 
@@ -18,24 +20,58 @@ namespace storm {
             : pomdp(pomdp), reward_name(reward_name), target_label(target_label) {
 
             auto const& tm = pomdp.getTransitionMatrix();
-            reachable_successors.resize(pomdp.getNumberOfStates());
+            this->reachable_successors.resize(pomdp.getNumberOfStates());
             for(uint64_t state = 0; state < pomdp.getNumberOfStates(); state++) {
-                reachable_successors[state] = std::set<uint64_t>();
+                this->reachable_successors[state] = std::set<uint64_t>();
                 for(auto const& entry: tm.getRowGroup(state)) {
                     auto successor = entry.getColumn();
                     if(successor != state) {
-                        reachable_successors[state].insert(successor);
+                        this->reachable_successors[state].insert(successor);
                     }
                 }
             }
 
+            this->relevant_states = storm::storage::BitVector(this->pomdp.getNumberOfStates(),false);
             this->frontier_states = storm::storage::BitVector(this->pomdp.getNumberOfStates(),false);
+        }
+
+        void SubPomdpBuilder::setRelevantObservations(
+            storm::storage::BitVector const& relevant_observations,
+            std::map<uint64_t,double> const& initial_belief
+        ) {
+            this->relevant_observations = relevant_observations;
+            this->relevant_states.clear();
+            this->frontier_states.clear();
+
+            // traverse the POMDP and identify states with relevant observations that are reachable from the initial belief
+            std::stack<uint64_t> state_stack;
+            for(const auto &entry : initial_belief) {
+                auto state = entry.first;
+                this->relevant_states.set(state,true);
+                state_stack.push(state);
+            }
+            while(!state_stack.empty()) {
+                auto state = state_stack.top();
+                state_stack.pop();
+                for(auto dst: this->reachable_successors[state]) {
+                    auto dst_obs = this->pomdp.getObservation(dst);
+                    if(!this->relevant_observations[dst_obs]) {
+                        // dst is a frontier state
+                        this->frontier_states.set(dst,true);
+                        continue;
+                    }
+                    // dst is a relevant state
+                    if(!this->relevant_states[dst]) {
+                        // first encounter of dst
+                        this->relevant_states.set(dst,true);
+                        state_stack.push(dst);
+                    }
+                }
+            }
         }
 
         void SubPomdpBuilder::setRelevantStates(storm::storage::BitVector const& relevant_states) {
             this->relevant_states = relevant_states;
-
-            // compute frontier states
             this->frontier_states.clear();
             for(auto state: relevant_states) {
                 for(uint64_t successor: this->reachable_successors[state]) {
@@ -44,29 +80,25 @@ namespace storm {
                     }
                 }
             }
+        }
 
+        void SubPomdpBuilder::constructStateMaps() {
             // create both state maps
             this->state_sub_to_full = std::vector<uint64_t>(this->num_states(),0);
             this->state_full_to_sub = std::vector<uint64_t>(this->pomdp.getNumberOfStates(),0);
             // indices 0 and 1 are reserved for the initial and the sink state respectively
             uint64_t state_index = 2;
-            for(auto state: relevant_states) {
+            for(auto state: this->relevant_states) {
                 this->state_full_to_sub[state] = state_index;
                 this->state_sub_to_full[state_index] = state;
                 state_index++;
             }
-            for(auto state: frontier_states) {
+            for(auto state: this->frontier_states) {
                 this->state_full_to_sub[state] = state_index;
                 this->state_sub_to_full[state_index] = state;
                 state_index++;
             }
         }
-
-        
-        storm::storage::BitVector const& SubPomdpBuilder::getFrontierStates() {
-            return this->frontier_states;
-        }
-
 
         
         storm::storage::SparseMatrix<double> SubPomdpBuilder::constructTransitionMatrix(
@@ -221,6 +253,7 @@ namespace storm {
         std::shared_ptr<storm::models::sparse::Pomdp<double>> SubPomdpBuilder::restrictPomdp(
             std::map<uint64_t,double> const& initial_belief
         ) {
+            this->constructStateMaps();
             storm::storage::sparse::ModelComponents<double> components;
             components.transitionMatrix = this->constructTransitionMatrix(initial_belief);
             uint64_t num_rows = components.transitionMatrix.getRowCount();
