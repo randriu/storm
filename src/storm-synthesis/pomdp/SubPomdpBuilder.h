@@ -28,7 +28,10 @@ namespace storm {
                 this->discount_factor = discount_factor;
             }
 
-            /** Set which observations to keep in the restricted sub-POMDP. */
+            /**
+             * Set which observations to keep in the restricted sub-POMDP. All states reachable from the initial belief
+             * having relevant observation will be included in the sub-POMDP.
+             */
             void setRelevantObservations(
                 storm::storage::BitVector const& relevant_observations,
                 std::map<uint64_t,double> const& initial_belief
@@ -38,11 +41,12 @@ namespace storm {
             void setRelevantStates(storm::storage::BitVector const& relevant_states);
 
             /**
-             * Construct a POMDP restriction containing relevant states, frontier states, a new initial state to
-             * simulate initial distribution and a new sink state (labeled as a target one) to which frontier states
-             * are redirected. Frontier state actions will have reward 0.
+             * Construct a POMDP restriction containing the following states:
+             * - fresh initial state to simulate initial distribution
+             * - fresh sink state (labeled as target)
+             * - relevant states
+             * - frontier states having single action going to sink state with probability 1 and reward 0
              * @param initial_belief initial probability distribution
-             * @return a POMDP
              */
             std::shared_ptr<storm::models::sparse::Pomdp<double>> restrictPomdp(
                 std::map<uint64_t,double> const& initial_belief
@@ -55,12 +59,14 @@ namespace storm {
             // irrelevant states reachable from the relevant ones in one step
             storm::storage::BitVector frontier_states;
 
-            // for each state of a sub-POMDP its index in full POMDP; first two entries corresponding to two fresh
-            // states contain 0
+            // for each state of a sub-POMDP its index in the full POMDP; fresh states (initial & sink) are associated
+            // with a number of states in the POMDP
             std::vector<uint64_t> state_sub_to_full;
-            // for each state of a full POMDP its index in the sub-POMDP, 0 for unreachable states
-            // no ambiguity since 0th state in the sub-POMDP is a special state that simulates initial beluef
+            // for each state of a full POMDP its index in the sub-POMDP; unreachable states are associated with
+            // a number of states in the sub-POMDP
             std::vector<uint64_t> state_full_to_sub;
+            // nondeterminstic choice indices of the sub-POMDP
+            std::vector<uint64_t> subpomdp_row_groups;
 
         private:
 
@@ -74,7 +80,11 @@ namespace storm {
             std::vector<std::set<uint64_t>> reachable_successors;
             // discount factor to be applied to the transformed POMDP
             double discount_factor = 1;
-            
+
+            // number of states in the sub-POMDP
+            uint64_t num_states_subpomdp;
+            // number of rows in the sub-POMDP
+            uint64_t num_rows_subpomdp;
 
             // index of the new initial state
             const uint64_t initial_state = 0;
@@ -83,20 +93,18 @@ namespace storm {
             // label associated with initial distribution as well as shortcut actions
             const std::string empty_label = "";
             
-            // total number of states in the sub-POMDP
-            uint64_t num_states() {
-                return this->relevant_states.getNumberOfSetBits() + this->frontier_states.getNumberOfSetBits() + 2;
-            }
-            
-            
-            void constructStateMaps();
+            // upon setting vector of relevant states, identify frontier states
+            void collectFrontierStates();
+            // create sub-to-full and full-to-sub state maps
+            void constructStates();
+
             storm::storage::SparseMatrix<double> constructTransitionMatrix(
                 std::map<uint64_t,double> const& initial_belief
             );
             storm::models::sparse::StateLabeling constructStateLabeling();
-            storm::models::sparse::ChoiceLabeling constructChoiceLabeling(uint64_t num_rows);
+            storm::models::sparse::ChoiceLabeling constructChoiceLabeling();
             std::vector<uint32_t> constructObservabilityClasses();
-            storm::models::sparse::StandardRewardModel<double> constructRewardModel(uint64_t num_rows);
+            storm::models::sparse::StandardRewardModel<double> constructRewardModel();
         
 
         };
