@@ -6,6 +6,8 @@
 #include "storm/storage/SparseMatrix.h"
 #include "storm/models/sparse/StandardRewardModel.h"
 
+#include <stack>
+
 namespace storm {
     namespace synthesis {
 
@@ -18,96 +20,140 @@ namespace storm {
             : pomdp(pomdp), reward_name(reward_name), target_label(target_label) {
 
             auto const& tm = pomdp.getTransitionMatrix();
-            reachable_successors.resize(pomdp.getNumberOfStates());
+            this->reachable_successors.resize(pomdp.getNumberOfStates());
             for(uint64_t state = 0; state < pomdp.getNumberOfStates(); state++) {
-                reachable_successors[state] = std::set<uint64_t>();
+                this->reachable_successors[state] = std::set<uint64_t>();
                 for(auto const& entry: tm.getRowGroup(state)) {
-                    if(entry.getColumn() != state) {
-                        reachable_successors[state].insert(entry.getColumn());
+                    auto successor = entry.getColumn();
+                    if(successor != state) {
+                        this->reachable_successors[state].insert(successor);
                     }
                 }
             }
 
+            this->relevant_states = storm::storage::BitVector(this->pomdp.getNumberOfStates(),false);
+            this->frontier_states = storm::storage::BitVector(this->pomdp.getNumberOfStates(),false);
         }
 
         void SubPomdpBuilder::setRelevantStates(storm::storage::BitVector const& relevant_states) {
             this->relevant_states = relevant_states;
+            this->collectFrontierStates();
+        }
 
-            // compute horizon states
-            this->horizon_states = storm::storage::BitVector(this->pomdp.getNumberOfStates(),false);
-            for(auto state: relevant_states) {
+        void SubPomdpBuilder::collectFrontierStates() {
+            this->frontier_states.clear();
+            for(auto state: this->relevant_states) {
                 for(uint64_t successor: this->reachable_successors[state]) {
-                    if(!relevant_states[successor]) {
-                        this->horizon_states.set(successor,true);
+                    if(!this->relevant_states[successor]) {
+                        this->frontier_states.set(successor,true);
                     }
                 }
             }
-
-            this->num_states = 2 + this->relevant_states.getNumberOfSetBits() + this->horizon_states.getNumberOfSetBits();
-
-            // create state map
-            this->state_map = std::vector<uint64_t>(this->pomdp.getNumberOfStates(),0);
-            // indices 0 and 1 are reserved for the initial and the sink state respectively
-            uint64_t state_index = 2;
-            for(auto state: relevant_states) {
-                this->state_map[state] = state_index++;
-            }
-            for(auto state: horizon_states) {
-                this->state_map[state] = state_index++;
-            }
         }
 
+        void SubPomdpBuilder::setRelevantObservations(
+            storm::storage::BitVector const& relevant_observations,
+            std::map<uint64_t,double> const& initial_belief
+        ) {
+            this->relevant_observations = relevant_observations;
+            this->relevant_states.clear();
+            this->frontier_states.clear();
+
+            // traverse the POMDP and identify states with relevant observations that are reachable from the initial belief
+            std::stack<uint64_t> state_stack;
+            for(const auto &entry : initial_belief) {
+                auto state = entry.first;
+                this->relevant_states.set(state,true);
+                state_stack.push(state);
+            }
+            while(!state_stack.empty()) {
+                auto state = state_stack.top();
+                state_stack.pop();
+                for(auto dst: this->reachable_successors[state]) {
+                    auto dst_obs = this->pomdp.getObservation(dst);
+                    if(this->relevant_observations[dst_obs] && !this->relevant_states[dst]) {
+                        // first encounter of a relevant state
+                        this->relevant_states.set(dst,true);
+                        state_stack.push(dst);
+                    }
+                }
+            }
+            this->collectFrontierStates();
+        }
         
-        storm::storage::BitVector const& SubPomdpBuilder::getHorizonStates() {
-            return this->horizon_states;
-        }
 
+        void SubPomdpBuilder::constructStates() {
+
+            this->num_states_subpomdp = this->relevant_states.getNumberOfSetBits() + this->frontier_states.getNumberOfSetBits() + 2;
+            this->num_rows_subpomdp = this->frontier_states.getNumberOfSetBits() + 2;
+            for(auto state: this->relevant_states) {
+                this->num_rows_subpomdp += this->pomdp.getNumberOfChoices(state);
+            }
+
+            auto num_states_pomdp = this->pomdp.getNumberOfStates();
+            this->state_sub_to_full = std::vector<uint64_t>(this->num_states_subpomdp,0);
+            this->state_full_to_sub = std::vector<uint64_t>(num_states_pomdp,0);
+
+            // indices 0 and 1 are reserved for the initial and the sink state respectively
+            uint64_t state_subpomdp = 0;
+            this->state_sub_to_full[state_subpomdp++] = num_states_pomdp;
+            this->state_sub_to_full[state_subpomdp++] = num_states_pomdp;
+            
+            for(auto state: this->relevant_states) {
+                this->state_full_to_sub[state] = state_subpomdp;
+                this->state_sub_to_full[state_subpomdp] = state;
+                state_subpomdp++;
+            }
+            for(auto state: this->frontier_states) {
+                this->state_full_to_sub[state] = state_subpomdp;
+                this->state_sub_to_full[state_subpomdp] = state;
+                state_subpomdp++;
+            }
+        }
 
         
         storm::storage::SparseMatrix<double> SubPomdpBuilder::constructTransitionMatrix(
             std::map<uint64_t,double> const& initial_belief
         ) {
-            // num_rows = initial state + sink state + 1 for each horizon state + rows of relevant states
-            uint64_t num_rows = 1+1+this->horizon_states.getNumberOfSetBits();
-            for(auto state: this->relevant_states) {
-                num_rows += this->pomdp.getTransitionMatrix().getRowGroupSize(state);
-            }
 
             // building the transition matrix
             storm::storage::SparseMatrixBuilder<double> builder(
-                    num_rows, this->num_states, 0, true, true, this->num_states
+                    this->num_rows_subpomdp, this->num_states_subpomdp, 0, true, true, this->num_states_subpomdp
             );
             uint64_t current_row = 0;
 
             // initial state distribution
             builder.newRowGroup(current_row);
             for(const auto &entry : initial_belief) {
-                auto dst = this->state_map[entry.first];
+                auto dst = this->state_full_to_sub[entry.first];
                 builder.addNextValue(current_row, dst, entry.second);
             }
             current_row++;
 
             // sink state self-loop
             builder.newRowGroup(current_row);
-            builder.addNextValue(current_row, current_row, 1);
+            builder.addNextValue(current_row, this->sink_state, 1);
             current_row++;
 
             // relevant states
-            auto const& tm = pomdp.getTransitionMatrix();
-            auto const& row_groups = tm.getRowGroupIndices();
+            auto const& tm = this->pomdp.getTransitionMatrix();
+            auto const& row_groups = this->pomdp.getNondeterministicChoiceIndices();
             for(auto state: this->relevant_states) {
                 builder.newRowGroup(current_row);
                 for(uint64_t row = row_groups[state]; row < row_groups[state+1]; row++) {
+                    if(this->discount_factor < 1) {
+                        builder.addNextValue(current_row, this->sink_state, 1-this->discount_factor);
+                    }
                     for(auto const& entry: tm.getRow(row)) {
-                        auto dst = this->state_map[entry.getColumn()];
-                        builder.addNextValue(current_row, dst, entry.getValue());
+                        auto dst = this->state_full_to_sub[entry.getColumn()];
+                        builder.addNextValue(current_row, dst, entry.getValue() * this->discount_factor);
                     }
                     current_row++;
                 }
             }
 
-            // horizon states
-            for(const auto state: this->horizon_states) {
+            // frontier states are rerouted to the sink state with probability 1
+            for(const auto state: this->frontier_states) {
                 (void) state;
                 builder.newRowGroup(current_row);
                 builder.addNextValue(current_row, this->sink_state, 1);
@@ -119,16 +165,20 @@ namespace storm {
         }
 
         storm::models::sparse::StateLabeling SubPomdpBuilder::constructStateLabeling() {
-            storm::models::sparse::StateLabeling labeling(this->num_states);
-            storm::storage::BitVector label_init(this->num_states, false);
+            // initial state labeling
+            storm::models::sparse::StateLabeling labeling(this->num_states_subpomdp);
+            storm::storage::BitVector label_init(this->num_states_subpomdp, false);
             label_init.set(this->initial_state);
             labeling.addLabel("init", std::move(label_init));
 
-            storm::storage::BitVector label_target(this->num_states, false);
+            // target state labeling
+            storm::storage::BitVector label_target(this->num_states_subpomdp, false);
             auto const& pomdp_labeling = this->pomdp.getStateLabeling();
             auto const& pomdp_target_states = pomdp_labeling.getStates(this->target_label);
             for(auto state: pomdp_target_states) {
-                label_target.set(this->state_map[state]);
+                if(this->relevant_states[state]) {
+                    label_target.set(this->state_full_to_sub[state]);
+                }
             }
             label_target.set(this->sink_state);
             labeling.addLabel(this->target_label, std::move(label_target));
@@ -136,24 +186,24 @@ namespace storm {
             return labeling;
         }
 
-        storm::models::sparse::ChoiceLabeling SubPomdpBuilder::constructChoiceLabeling(uint64_t num_rows) {
-            storm::models::sparse::ChoiceLabeling labeling(num_rows);
+        storm::models::sparse::ChoiceLabeling SubPomdpBuilder::constructChoiceLabeling() {
+            // copy existing labels, add fresh label
+            storm::models::sparse::ChoiceLabeling labeling(this->num_rows_subpomdp);
             auto const& pomdp_labeling = this->pomdp.getChoiceLabeling();
-            labeling.addLabel(this->empty_label, storm::storage::BitVector(num_rows,false));
             for (auto const& label : pomdp_labeling.getLabels()) {
-                labeling.addLabel(label, storm::storage::BitVector(num_rows,false));
+                labeling.addLabel(label, storm::storage::BitVector(this->num_rows_subpomdp,false));
             }
-            uint64_t current_row = 0;
+            labeling.addLabel(this->empty_label, storm::storage::BitVector(this->num_rows_subpomdp,false));
 
             // initial state, sink state
-            labeling.addLabelToChoice(this->empty_label, current_row++);
-            labeling.addLabelToChoice(this->empty_label, current_row++);
+            labeling.addLabelToChoice(this->empty_label, 0);
+            labeling.addLabelToChoice(this->empty_label, 1);
 
             // relevant states
-            auto const& tm = this->pomdp.getTransitionMatrix();
-            auto const& row_groups = tm.getRowGroupIndices();
+            auto const& row_groups = this->pomdp.getNondeterministicChoiceIndices();
+            uint64_t current_row = 2;
             for(auto state: this->relevant_states) {
-                for(uint64_t row = row_groups[state]; row < row_groups[state+1]; row++) {
+                for(uint64_t row = row_groups[state]; row<row_groups[state+1]; row++) {
                     for(auto label: pomdp_labeling.getLabelsOfChoice(row)) {
                         labeling.addLabelToChoice(label, current_row);
                     }
@@ -161,8 +211,9 @@ namespace storm {
                 }
             }
 
-            // horizon states
-            for(const auto state: this->horizon_states) {
+            // frontier states
+            for(auto state: this->frontier_states) {
+                (void) state;
                 labeling.addLabelToChoice(this->empty_label, current_row++);
             }
 
@@ -170,61 +221,43 @@ namespace storm {
         }
 
         std::vector<uint32_t> SubPomdpBuilder::constructObservabilityClasses() {
-            std::vector<uint32_t> observation_classes(this->num_states);
+            std::vector<uint32_t> observation_classes(this->num_states_subpomdp);
             uint32_t fresh_observation = this->pomdp.getNrObservations();
             observation_classes[this->initial_state] = fresh_observation;
             observation_classes[this->sink_state] = fresh_observation;
             for(auto state: this->relevant_states) {
-                observation_classes[this->state_map[state]] = this->pomdp.getObservation(state);
+                observation_classes[this->state_full_to_sub[state]] = this->pomdp.getObservation(state);
             }
-            for(auto state: this->horizon_states) {
-                observation_classes[this->state_map[state]] = fresh_observation;
+            for(auto state: this->frontier_states) {
+                observation_classes[this->state_full_to_sub[state]] = fresh_observation;
             }
             return observation_classes;
         }
 
-        storm::models::sparse::StandardRewardModel<double> SubPomdpBuilder::constructRewardModel(
-            uint64_t num_rows,
-            std::map<uint64_t,double> const& horizon_values
-        ) {
+        storm::models::sparse::StandardRewardModel<double> SubPomdpBuilder::constructRewardModel() {
             auto const& reward_model = this->pomdp.getRewardModel(this->reward_name);
             boost::optional<std::vector<double>> state_rewards;
-            std::vector<double> action_rewards(num_rows,0);
-
-            uint64_t current_row = 0;
-
-            // skip initial state, sink state
-            current_row += 2;
-
-            // relevant states
-            auto const& row_groups = this->pomdp.getTransitionMatrix().getRowGroupIndices();
+            std::vector<double> action_rewards(this->num_rows_subpomdp,0);
+            uint64_t current_row = 2;
+            auto const& row_groups = this->pomdp.getNondeterministicChoiceIndices();
             for(auto state: this->relevant_states) {
-                for(uint64_t row = row_groups[state]; row < row_groups[state+1]; row++) {
-                    action_rewards[current_row] = reward_model.getStateActionReward(row);
-                    current_row++;
+                for(uint64_t row = row_groups[state]; row<row_groups[state+1]; row++) {
+                    action_rewards[current_row++] = reward_model.getStateActionReward(row);
                 }
             }
-
-            // horizon states
-            for(const auto state: this->horizon_states) {
-                action_rewards[current_row] = horizon_values.find(state)->second;
-                current_row++;
-            }
-
             return storm::models::sparse::StandardRewardModel<double>(std::move(state_rewards), std::move(action_rewards));
         }
 
         std::shared_ptr<storm::models::sparse::Pomdp<double>> SubPomdpBuilder::restrictPomdp(
-            std::map<uint64_t,double> const& initial_belief,
-            std::map<uint64_t,double> const& horizon_values
+            std::map<uint64_t,double> const& initial_belief
         ) {
+            this->constructStates();
             storm::storage::sparse::ModelComponents<double> components;
             components.transitionMatrix = this->constructTransitionMatrix(initial_belief);
-            uint64_t num_rows = components.transitionMatrix.getRowCount();
             components.stateLabeling = this->constructStateLabeling();
-            components.choiceLabeling = this->constructChoiceLabeling(num_rows);
+            components.choiceLabeling = this->constructChoiceLabeling();
             components.observabilityClasses = this->constructObservabilityClasses();
-            components.rewardModels.emplace(this->reward_name, this->constructRewardModel(num_rows,horizon_values));
+            components.rewardModels.emplace(this->reward_name, this->constructRewardModel());
             return std::make_shared<storm::models::sparse::Pomdp<double>>(std::move(components));
         }
 

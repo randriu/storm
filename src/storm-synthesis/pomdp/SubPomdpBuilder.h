@@ -21,26 +21,52 @@ namespace storm {
                 std::string const& target_label
             );
 
+            /**
+             * If <1 discount factor is set, each action will redirect 1-df probability to the (target) sink state.
+             */
+            void setDiscountFactor(double discount_factor) {
+                this->discount_factor = discount_factor;
+            }
+
+            /**
+             * Set which observations to keep in the restricted sub-POMDP. All states reachable from the initial belief
+             * having relevant observation will be included in the sub-POMDP.
+             */
+            void setRelevantObservations(
+                storm::storage::BitVector const& relevant_observations,
+                std::map<uint64_t,double> const& initial_belief
+            );
+
             /** Set which states to keep in the restricted sub-POMDP. */
             void setRelevantStates(storm::storage::BitVector const& relevant_states);
 
-            /** Get irrelevant states reachable from relevant ones in 1 step. */
-            storm::storage::BitVector const& getHorizonStates();
-
             /**
-             * Construct a POMDP restriction containing relevant states, horizon
-             * states, a new initial state to simulate initial distribution and
-             * a new sink state (labeled as a target one) to which horizon states
-             * are redirected.
+             * Construct a POMDP restriction containing the following states:
+             * - fresh initial state to simulate initial distribution
+             * - fresh sink state (labeled as target)
+             * - relevant states
+             * - frontier states having single action going to sink state with probability 1 and reward 0
              * @param initial_belief initial probability distribution
-             * @param horizon_values reward obtained upon redirection of the
-             *   horizon state to the sink state
-             * @return a POMDP
              */
             std::shared_ptr<storm::models::sparse::Pomdp<double>> restrictPomdp(
-                std::map<uint64_t,double> const& initial_belief,
-                std::map<uint64_t,double> const& horizon_values
+                std::map<uint64_t,double> const& initial_belief
             );
+
+            // observations relevant for the current restriction
+            storm::storage::BitVector relevant_observations;
+            // states relevant for the current restriction
+            storm::storage::BitVector relevant_states;
+            // irrelevant states reachable from the relevant ones in one step
+            storm::storage::BitVector frontier_states;
+
+            // for each state of a sub-POMDP its index in the full POMDP; fresh states (initial & sink) are associated
+            // with a number of states in the POMDP
+            std::vector<uint64_t> state_sub_to_full;
+            // for each state of a full POMDP its index in the sub-POMDP; unreachable states are associated with
+            // a number of states in the sub-POMDP
+            std::vector<uint64_t> state_full_to_sub;
+            // nondeterminstic choice indices of the sub-POMDP
+            std::vector<uint64_t> subpomdp_row_groups;
 
         private:
 
@@ -52,7 +78,13 @@ namespace storm {
             std::string const target_label;
             // for each state, a list of immediate successors (excluding state itself)
             std::vector<std::set<uint64_t>> reachable_successors;
-            
+            // discount factor to be applied to the transformed POMDP
+            double discount_factor = 1;
+
+            // number of states in the sub-POMDP
+            uint64_t num_states_subpomdp;
+            // number of rows in the sub-POMDP
+            uint64_t num_rows_subpomdp;
 
             // index of the new initial state
             const uint64_t initial_state = 0;
@@ -60,35 +92,22 @@ namespace storm {
             const uint64_t sink_state = 1;
             // label associated with initial distribution as well as shortcut actions
             const std::string empty_label = "";
+            
+            // upon setting vector of relevant states, identify frontier states
+            void collectFrontierStates();
+            // create sub-to-full and full-to-sub state maps
+            void constructStates();
 
-            // states relevant for the current restriction
-            storm::storage::BitVector relevant_states;
-            // irrelevant states reachable from the relevant ones in one step
-            storm::storage::BitVector horizon_states;
-            // total number of states in the sub-POMDP
-            // (equal to the number of relevant states + horizon states + 2)
-            uint64_t num_states;
-            // for each state of a POMDP its index in the sub-POMDP
-            // (0 for unreachable states)
-            std::vector<uint64_t> state_map;
-            
-            
             storm::storage::SparseMatrix<double> constructTransitionMatrix(
                 std::map<uint64_t,double> const& initial_belief
             );
             storm::models::sparse::StateLabeling constructStateLabeling();
-            storm::models::sparse::ChoiceLabeling constructChoiceLabeling(uint64_t num_rows);
+            storm::models::sparse::ChoiceLabeling constructChoiceLabeling();
             std::vector<uint32_t> constructObservabilityClasses();
-            storm::models::sparse::StandardRewardModel<double> constructRewardModel(
-                uint64_t num_rows,
-                std::map<uint64_t,double> const& horizon_values
-            );
+            storm::models::sparse::StandardRewardModel<double> constructRewardModel();
         
 
         };
-
-
-
 
     }
 }
