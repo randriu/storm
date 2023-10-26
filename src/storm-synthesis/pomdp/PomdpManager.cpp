@@ -222,14 +222,8 @@ namespace storm {
 
                 storm::storage::sparse::ModelComponents<ValueType> components;
                 components.transitionMatrix = this->constructTransitionMatrix();
-                // std::cout << "row groups: " << components.transitionMatrix.getRowGroupCount() << std::endl << std::flush;
-                // std::cout << "rows: " << components.transitionMatrix.getRowCount() << std::endl << std::flush;
-                // std::cout << "entries: " << components.transitionMatrix.getEntryCount() << std::endl << std::flush;
-                // std::cout << "column: " << components.transitionMatrix.getColumnCount() << std::endl << std::flush;
-                
-                assert(components.transitionMatrix.isProbabilistic());
-                components.stateLabeling = this->constructStateLabeling();
                 // TODO remove unreachable states
+                components.stateLabeling = this->constructStateLabeling();
                 for (auto const& reward_model : pomdp.getRewardModels()) {
                     auto constructed = this->constructRewardModel(reward_model.second);
                     components.rewardModels.emplace(reward_model.first, constructed);
