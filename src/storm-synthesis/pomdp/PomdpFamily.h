@@ -80,16 +80,10 @@ namespace storm {
                 std::vector<std::vector<uint64_t>> update_function
             );
 
-            // Results of the product construction
-            /** For each product state, its state-memory value. */
-            std::vector<std::pair<uint64_t,uint64_t>> product_state_to_state_memory;
-            /** For aeach product choice, its choice-memory value. */
-            std::vector<std::pair<uint64_t,uint64_t>> product_choice_to_choice_memory;
-            /** The product. */
+            /** The constructed product with an FSC. */
             std::shared_ptr<storm::models::sparse::Mdp<ValueType>> product;
-            
             /** For each choice of the product MDP, its original choice. */
-            std::vector<uint64_t> choice_product_to_original;
+            std::vector<uint64_t> product_choice_to_choice;
 
             
 
@@ -106,21 +100,23 @@ namespace storm {
             
             /** For each state-action pair, a list of choices that implement this action. */
             std::vector<std::vector<std::set<uint64_t>>> state_action_choices;
-            /** For each choice, a list of destinations. */
-            std::vector<std::set<uint64_t>> choice_destinations;
 
-
-            /** Number of states in the product. */
-            uint64_t productNumberOfStates();
-            /** Number of states in the product. */
-            uint64_t productNumberOfChoices();
-
+            /** For each product state, its state-memory value. */
+            std::vector<std::pair<uint64_t,uint64_t>> product_state_to_state_memory;
+            /** For aeach product choice, its choice-memory value. */
+            std::vector<std::pair<uint64_t,uint64_t>> product_choice_to_choice_memory;
             /** For each state-memory pair, whether it has been registered. */
             std::vector<storm::storage::BitVector> state_memory_registered;
             /** For each state-memory pair, its corresponding product state. */
             std::vector<std::vector<uint64_t>> state_memory_to_product_state;
             /** For each product state, its first choice. */
             std::vector<uint64_t> product_state_row_group_start;
+            
+            /** Number of states in the product. */
+            uint64_t productNumberOfStates();
+            /** Number of states in the product. */
+            uint64_t productNumberOfChoices();
+
             
             /** Given a state-memory pair, retreive the corresponding product state or create a new one. */
             uint64_t mapStateMemory(uint64_t state, uint64_t memory);

@@ -115,17 +115,12 @@ namespace storm {
             num_actions(num_actions), choice_to_action(choice_to_action) {
             
             this->state_action_choices.resize(this->quotient.getNumberOfStates());
-            this->choice_destinations.resize(this->quotient.getNumberOfChoices());
             auto const& row_group_indices = this->quotient.getTransitionMatrix().getRowGroupIndices();
             for(uint64_t state = 0; state < this->quotient.getNumberOfStates(); state++) {
                 this->state_action_choices[state].resize(this->num_actions);
                 for (uint64_t row = row_group_indices[state]; row < row_group_indices[state+1]; row++) {
                     uint64_t action = this->choice_to_action[row];
                     this->state_action_choices[state][action].insert(row);
-                    for(auto const &entry: this->quotient.getTransitionMatrix().getRow(row)) {
-                        auto dst = entry.getColumn();
-                        this->choice_destinations[row].insert(dst);
-                    } 
                 }
             }
         }
@@ -159,10 +154,6 @@ namespace storm {
             std::vector<std::vector<uint64_t>> action_function,
             std::vector<std::vector<uint64_t>> update_function
         ) {
-            this->product_state_to_state_memory.clear();
-            this->product_choice_to_choice_memory.clear();
-            this->product_state_row_group_start.clear();
-            
             uint64_t quotient_num_states = this->quotient.getNumberOfStates();
             this->state_memory_registered.resize(quotient_num_states);
             this->state_memory_to_product_state.resize(quotient_num_states);
@@ -170,11 +161,10 @@ namespace storm {
                 this->state_memory_registered[state] = storm::storage::BitVector(num_nodes);
                 this->state_memory_to_product_state[state].resize(num_nodes);
             }
-
+            this->product_choice_to_choice.clear();
 
             uint64_t initial_state = *(this->quotient.getInitialStates().begin());
             uint64_t initial_memory = 0;
-            std::queue<uint64_t> unexplored_product_states;
             auto product_state = this->mapStateMemory(initial_state,initial_memory);
             while(true) {
                 this->product_state_row_group_start.push_back(this->productNumberOfChoices());
@@ -184,12 +174,10 @@ namespace storm {
                 auto memory_dst = update_function[memory][observation];
                 for(auto choice: this->state_action_choices[state][action]) {
                     this->product_choice_to_choice_memory.push_back(std::make_pair(choice,memory_dst));
-                    for(auto state_dst: this->choice_destinations[choice]) {
-                        auto dst_registered = this->state_memory_registered[state_dst][memory_dst];
-                        auto product_state_dst = this->mapStateMemory(state_dst,memory_dst);
-                        if(!dst_registered) {
-                            unexplored_product_states.push(product_state_dst);
-                        }
+                    this->product_choice_to_choice.push_back(choice);
+                    for(auto const &entry: this->quotient.getTransitionMatrix().getRow(choice)) {
+                        auto state_dst = entry.getColumn();
+                        this->mapStateMemory(state_dst,memory_dst);
                     }
                 }
                 product_state++;
@@ -300,7 +288,9 @@ namespace storm {
         void QuotientPomdpManager<ValueType>::clearMemory() {
             this->state_memory_registered.clear();
             this->state_memory_to_product_state.clear();
+            this->product_state_to_state_memory.clear();
             this->product_state_row_group_start.clear();
+            this->product_choice_to_choice_memory.clear();
         }
 
 
