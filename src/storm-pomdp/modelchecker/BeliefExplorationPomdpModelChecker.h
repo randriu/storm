@@ -11,12 +11,6 @@
 namespace storm {
 class Environment;
 
-// namespace models {
-// namespace sparse {
-// template<class ValueType, typename RewardModelType>
-// class Pomdp;
-// }
-// }  // namespace models
 namespace logic {
 class Formula;
 }
