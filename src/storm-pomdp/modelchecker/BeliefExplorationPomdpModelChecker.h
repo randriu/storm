@@ -3,18 +3,20 @@
 #include "storm-pomdp/storage/BeliefManager.h"
 #include "storm/utility/logging.h"
 
+#include "storm/models/sparse/Pomdp.h"
+
 #include "storm/storage/jani/Property.h"
 #include "storm/utility/Stopwatch.h"
 
 namespace storm {
 class Environment;
 
-namespace models {
-namespace sparse {
-template<class ValueType, typename RewardModelType>
-class Pomdp;
-}
-}  // namespace models
+// namespace models {
+// namespace sparse {
+// template<class ValueType, typename RewardModelType>
+// class Pomdp;
+// }
+// }  // namespace models
 namespace logic {
 class Formula;
 }
